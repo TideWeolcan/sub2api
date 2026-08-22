@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // 主色调 - Teal/Cyan 青色系
+        // 主色调 - Teal/Cyan 青色系（保持不变；CPA tokens 以 --cpa-* 变量另行提供）
         primary: {
           50: '#f0fdfa',
           100: '#ccfbf1',
@@ -46,6 +46,96 @@ export default {
           800: '#1e293b',
           900: '#0f172a',
           950: '#020617'
+        },
+        // CPA design tokens — CSS-variable backed (from cpa-tokens.css, no SCSS)
+        cpa: {
+          primary: 'var(--cpa-primary)',
+          success: 'var(--cpa-success)',
+          warning: 'var(--cpa-warning)',
+          error: 'var(--cpa-error)',
+          danger: 'var(--cpa-danger)',
+          info: 'var(--cpa-info)',
+          surface: 'var(--cpa-app-surface)',
+          'surface-strong': 'var(--cpa-app-surface-strong)',
+          'surface-muted': 'var(--cpa-app-surface-muted)',
+          border: 'var(--cpa-app-border)',
+          'border-strong': 'var(--cpa-app-border-strong)',
+          'text-primary': 'var(--cpa-app-text-primary)',
+          'text-regular': 'var(--cpa-app-text-regular)',
+          'text-muted': 'var(--cpa-app-text-muted)'
+        },
+        // CPA data palettes — var-backed so dark mode remaps automatically
+        'cpa-blue': {
+          DEFAULT: 'var(--cpa-data-blue-base)',
+          dark: 'var(--cpa-data-blue-dark-2)',
+          300: 'var(--cpa-data-blue-light-3)',
+          500: 'var(--cpa-data-blue-light-5)',
+          700: 'var(--cpa-data-blue-light-7)',
+          800: 'var(--cpa-data-blue-light-8)',
+          900: 'var(--cpa-data-blue-light-9)'
+        },
+        'cpa-green': {
+          DEFAULT: 'var(--cpa-data-green-base)',
+          dark: 'var(--cpa-data-green-dark-2)',
+          300: 'var(--cpa-data-green-light-3)',
+          500: 'var(--cpa-data-green-light-5)',
+          700: 'var(--cpa-data-green-light-7)',
+          800: 'var(--cpa-data-green-light-8)',
+          900: 'var(--cpa-data-green-light-9)'
+        },
+        'cpa-amber': {
+          DEFAULT: 'var(--cpa-data-amber-base)',
+          dark: 'var(--cpa-data-amber-dark-2)',
+          300: 'var(--cpa-data-amber-light-3)',
+          500: 'var(--cpa-data-amber-light-5)',
+          700: 'var(--cpa-data-amber-light-7)',
+          800: 'var(--cpa-data-amber-light-8)',
+          900: 'var(--cpa-data-amber-light-9)'
+        },
+        'cpa-red': {
+          DEFAULT: 'var(--cpa-data-red-base)',
+          dark: 'var(--cpa-data-red-dark-2)',
+          300: 'var(--cpa-data-red-light-3)',
+          500: 'var(--cpa-data-red-light-5)',
+          700: 'var(--cpa-data-red-light-7)',
+          800: 'var(--cpa-data-red-light-8)',
+          900: 'var(--cpa-data-red-light-9)'
+        },
+        'cpa-violet': {
+          DEFAULT: 'var(--cpa-data-violet-base)',
+          dark: 'var(--cpa-data-violet-dark-2)',
+          300: 'var(--cpa-data-violet-light-3)',
+          500: 'var(--cpa-data-violet-light-5)',
+          700: 'var(--cpa-data-violet-light-7)',
+          800: 'var(--cpa-data-violet-light-8)',
+          900: 'var(--cpa-data-violet-light-9)'
+        },
+        'cpa-cyan': {
+          DEFAULT: 'var(--cpa-data-cyan-base)',
+          dark: 'var(--cpa-data-cyan-dark-2)',
+          300: 'var(--cpa-data-cyan-light-3)',
+          500: 'var(--cpa-data-cyan-light-5)',
+          700: 'var(--cpa-data-cyan-light-7)',
+          800: 'var(--cpa-data-cyan-light-8)',
+          900: 'var(--cpa-data-cyan-light-9)'
+        },
+        'cpa-teal': {
+          DEFAULT: 'var(--cpa-data-teal-base)',
+          dark: 'var(--cpa-data-teal-dark-2)',
+          300: 'var(--cpa-data-teal-light-3)',
+          500: 'var(--cpa-data-teal-light-5)',
+          700: 'var(--cpa-data-teal-light-7)',
+          800: 'var(--cpa-data-teal-light-8)',
+          900: 'var(--cpa-data-teal-light-9)'
+        },
+        'cpa-slate': {
+          DEFAULT: 'var(--cpa-data-slate-base)',
+          dark: 'var(--cpa-data-slate-dark-2)',
+          300: 'var(--cpa-data-slate-light-3)',
+          500: 'var(--cpa-data-slate-light-5)',
+          700: 'var(--cpa-data-slate-light-7)',
+          800: 'var(--cpa-data-slate-light-8)',
+          900: 'var(--cpa-data-slate-light-9)'
         }
       },
       fontFamily: {
@@ -71,7 +161,10 @@ export default {
         'glow-lg': '0 0 40px rgba(20, 184, 166, 0.35)',
         card: '0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06)',
         'card-hover': '0 10px 40px rgba(0, 0, 0, 0.08)',
-        'inner-glow': 'inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+        'inner-glow': 'inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+        'cpa-sm': 'var(--cpa-shadow-sm)',
+        'cpa-md': 'var(--cpa-shadow-md)',
+        'cpa-lg': 'var(--cpa-shadow-lg)'
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -126,7 +219,24 @@ export default {
         xs: '2px'
       },
       borderRadius: {
-        '4xl': '2rem'
+        '4xl': '2rem',
+        // CPA radii — var-backed
+        'cpa-sm': 'var(--cpa-radius-sm)',
+        'cpa-md': 'var(--cpa-radius-md)',
+        'cpa-lg': 'var(--cpa-radius-lg)',
+        'cpa-app-sm': 'var(--cpa-radius-app-sm)',
+        'cpa-app-md': 'var(--cpa-radius-app-md)',
+        'cpa-app-lg': 'var(--cpa-radius-app-lg)'
+      },
+      spacing: {
+        'cpa-xs': 'var(--cpa-spacing-xs)',
+        'cpa-sm': 'var(--cpa-spacing-sm)',
+        'cpa-md': 'var(--cpa-spacing-md)',
+        'cpa-lg': 'var(--cpa-spacing-lg)',
+        'cpa-xl': 'var(--cpa-spacing-xl)',
+        'cpa-2xl': 'var(--cpa-spacing-2xl)',
+        'cpa-gap': 'var(--cpa-app-gap)',
+        'cpa-card': 'var(--cpa-app-card-padding)'
       }
     }
   },
