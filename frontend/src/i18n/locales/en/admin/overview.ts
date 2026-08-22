@@ -1,4 +1,11 @@
 export default {
+    // Model alias editor (shared component)
+    modelAliasEditor: {
+      namePlaceholder: 'model-name',
+      aliasPlaceholder: 'alias (optional)',
+      duplicateName: 'Duplicate model name',
+      duplicateAlias: 'Alias conflicts with another mapping'
+    },
     // Dashboard
     dashboard: {
       title: 'Admin Dashboard',
@@ -77,7 +84,41 @@ export default {
       groupPricingDesc: 'Configure batch discount and hold ratio',
       systemSettings: 'System Settings',
       configureSystem: 'Configure system settings',
-      failedToLoad: 'Failed to load dashboard statistics'
+      failedToLoad: 'Failed to load dashboard statistics',
+      // CPA dashboard cards
+      todayOverview: "Today's Overview",
+      lastRefreshedAt: 'Updated at {time}',
+      recent5m: 'Last 5 min',
+      successRate: 'Success Rate',
+      systemOverview: 'System Overview',
+      appVersion: 'App Version',
+      apiVersion: 'API Version',
+      buildTime: 'Build Time',
+      uptime: 'Uptime',
+      versionCheck: 'Check for updates',
+      versionLatest: 'Up to date',
+      versionUpdate: 'Update {version} available',
+      versionUnknown: 'Unknown',
+      trafficOverview: 'Traffic Overview',
+      tokenMixToday: 'Token Mix (Today)',
+      cacheRead: 'Cache Read',
+      cacheCreation: 'Cache Creation',
+      collectorStatus: 'Collector Status',
+      collectorMode: 'Mode',
+      healthQueueStatus: 'Queue Status',
+      collectorEvents: 'Events',
+      collectorDeadLetters: 'Dead Letters',
+      collectorTotalInserted: 'Total Inserted',
+      collectorTotalSkipped: 'Total Skipped',
+      collectorLastError: 'Last error',
+      collectorUnavailable: 'Unavailable',
+      healthAlerts: 'Health Alerts',
+      noAlerts: 'No alerts',
+      allNormal: 'All systems normal',
+      alertHighErrorRate: 'High error rate',
+      alertRateLimited: 'Upstream rate limited (429)',
+      alertAbnormalAccounts: 'Abnormal accounts',
+      alertLowHealthScore: 'Low health score'
     },
 
     backup: {

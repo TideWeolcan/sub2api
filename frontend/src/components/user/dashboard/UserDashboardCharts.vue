@@ -12,9 +12,15 @@
         </button>
         <div class="ml-auto flex items-center gap-2">
           <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ t('dashboard.granularity') }}:</span>
-          <div class="w-28">
-            <Select :model-value="granularity" :options="[{value:'day', label:t('dashboard.day')}, {value:'hour', label:t('dashboard.hour')}]" @update:model-value="$emit('update:granularity', $event)" @change="$emit('granularityChange')" />
-          </div>
+          <SegmentedTabs
+            :model-value="granularity"
+            :items="[{ id: 'day', label: t('dashboard.day') }, { id: 'hour', label: t('dashboard.hour') }]"
+            :ariaLabel="t('dashboard.granularity')"
+            :id-base="`user-dashboard-granularity`"
+            equal-width
+            @update:model-value="$emit('update:granularity', $event)"
+            @change="$emit('granularityChange')"
+          />
         </div>
       </div>
     </div>
@@ -68,7 +74,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
 import DateRangePicker from '@/components/common/DateRangePicker.vue'
-import Select from '@/components/common/Select.vue'
+import SegmentedTabs from '@/components/common/SegmentedTabs.vue'
 import { Doughnut } from 'vue-chartjs'
 import TokenUsageTrend from '@/components/charts/TokenUsageTrend.vue'
 import type { TrendDataPoint, ModelStat } from '@/types'

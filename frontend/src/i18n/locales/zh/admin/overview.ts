@@ -1,4 +1,11 @@
 export default {
+    // 模型别名编辑器（公共组件）
+    modelAliasEditor: {
+      namePlaceholder: '模型名称',
+      aliasPlaceholder: '别名（可选）',
+      duplicateName: '模型名称重复',
+      duplicateAlias: '别名与其他映射冲突'
+    },
     // Dashboard
     dashboard: {
       title: '管理控制台',
@@ -77,7 +84,41 @@ export default {
       groupPricingDesc: '设置批量折扣和冻结比例',
       systemSettings: '系统设置',
       configureSystem: '配置系统设置',
-      failedToLoad: '加载仪表盘数据失败'
+      failedToLoad: '加载仪表盘数据失败',
+      // CPA dashboard cards
+      todayOverview: '今日概览',
+      lastRefreshedAt: '更新于 {time}',
+      recent5m: '近5分钟',
+      successRate: '成功率',
+      systemOverview: '系统概览',
+      appVersion: '应用版本',
+      apiVersion: 'API 版本',
+      buildTime: '构建时间',
+      uptime: '运行时长',
+      versionCheck: '检查更新',
+      versionLatest: '已是最新',
+      versionUpdate: '可更新到 {version}',
+      versionUnknown: '未知',
+      trafficOverview: '流量概览',
+      tokenMixToday: 'Token 构成（今日）',
+      cacheRead: '缓存读取',
+      cacheCreation: '缓存写入',
+      collectorStatus: '采集器状态',
+      collectorMode: '模式',
+      healthQueueStatus: '队列状态',
+      collectorEvents: '事件数',
+      collectorDeadLetters: '死信',
+      collectorTotalInserted: '累计写入',
+      collectorTotalSkipped: '累计跳过',
+      collectorLastError: '最近错误',
+      collectorUnavailable: '不可用',
+      healthAlerts: '健康告警',
+      noAlerts: '暂无告警',
+      allNormal: '一切正常',
+      alertHighErrorRate: '错误率偏高',
+      alertRateLimited: '上游限流 (429)',
+      alertAbnormalAccounts: '异常账号',
+      alertLowHealthScore: '健康分偏低'
     },
 
     backup: {

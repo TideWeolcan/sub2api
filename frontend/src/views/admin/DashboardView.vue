@@ -7,212 +7,44 @@
       </div>
 
       <template v-else-if="stats">
-        <!-- Row 1: Core Stats -->
-        <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <!-- Total API Keys -->
-          <div class="card p-4">
-            <div class="flex items-center gap-3">
-              <div class="rounded-lg bg-blue-100 p-2 dark:bg-blue-900/30">
-                <Icon name="key" size="md" class="text-blue-600 dark:text-blue-400" :stroke-width="2" />
-              </div>
-              <div>
-                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-                  {{ t('admin.dashboard.apiKeys') }}
-                </p>
-                <p class="text-xl font-bold text-gray-900 dark:text-white">
-                  {{ stats.total_api_keys }}
-                </p>
-                <p class="text-xs text-green-600 dark:text-green-400">
-                  {{ stats.active_api_keys }} {{ t('common.active') }}
-                </p>
-              </div>
-            </div>
+        <!-- CPA-style dashboard grid -->
+        <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
+          <!-- Left column: metrics + traffic -->
+          <div class="space-y-4 xl:col-span-1">
+            <UsageMetricsCard
+              :stats="stats"
+              :loading="loading"
+              :last-refreshed-at="lastRefreshedAt"
+            />
+            <TrafficOverviewCard
+              :points="trendData"
+              :loading="chartsLoading"
+              :show-token-mix="true"
+            />
           </div>
 
-          <!-- Service Accounts -->
-          <div class="card p-4">
-            <div class="flex items-center gap-3">
-              <div class="rounded-lg bg-purple-100 p-2 dark:bg-purple-900/30">
-                <Icon name="server" size="md" class="text-purple-600 dark:text-purple-400" :stroke-width="2" />
-              </div>
-              <div>
-                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-                  {{ t('admin.dashboard.accounts') }}
-                </p>
-                <p class="text-xl font-bold text-gray-900 dark:text-white">
-                  {{ stats.total_accounts }}
-                </p>
-                <p class="text-xs">
-                  <span class="text-green-600 dark:text-green-400"
-                    >{{ stats.normal_accounts }} {{ t('common.active') }}</span
-                  >
-                  <span v-if="stats.error_accounts > 0" class="ml-1 text-red-500"
-                    >{{ stats.error_accounts }} {{ t('common.error') }}</span
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Today Requests -->
-          <div class="card p-4">
-            <div class="flex items-center gap-3">
-              <div class="rounded-lg bg-green-100 p-2 dark:bg-green-900/30">
-                <Icon name="chart" size="md" class="text-green-600 dark:text-green-400" :stroke-width="2" />
-              </div>
-              <div>
-                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-                  {{ t('admin.dashboard.todayRequests') }}
-                </p>
-                <p class="text-xl font-bold text-gray-900 dark:text-white">
-                  {{ stats.today_requests }}
-                </p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">
-                  {{ t('common.total') }}: {{ formatNumber(stats.total_requests) }}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- New Users Today -->
-          <div class="card p-4">
-            <div class="flex items-center gap-3">
-              <div class="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/30">
-                <Icon name="userPlus" size="md" class="text-emerald-600 dark:text-emerald-400" :stroke-width="2" />
-              </div>
-              <div>
-                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-                  {{ t('admin.dashboard.users') }}
-                </p>
-                <p class="text-xl font-bold text-emerald-600 dark:text-emerald-400">
-                  +{{ stats.today_new_users }}
-                </p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">
-                  {{ t('common.total') }}: {{ formatNumber(stats.total_users) }}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Row 2: Token Stats -->
-        <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <!-- Today Tokens -->
-          <div class="card p-4">
-            <div class="flex items-center gap-3">
-              <div class="rounded-lg bg-amber-100 p-2 dark:bg-amber-900/30">
-                <Icon name="cube" size="md" class="text-amber-600 dark:text-amber-400" :stroke-width="2" />
-              </div>
-              <div>
-                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-                  {{ t('admin.dashboard.todayTokens') }}
-                </p>
-                <p class="text-xl font-bold text-gray-900 dark:text-white">
-                  {{ formatTokens(stats.today_tokens) }}
-                </p>
-                <p class="text-xs">
-                  <span
-                    class="text-green-600 dark:text-green-400"
-                    :title="t('admin.dashboard.actual')"
-                    >${{ formatCost(stats.today_actual_cost) }}</span
-                  >
-                  <span class="text-gray-400 dark:text-gray-500"> / </span>
-                  <span
-                    class="text-orange-500 dark:text-orange-400"
-                    :title="t('admin.dashboard.accountCost')"
-                    >${{ formatCost(stats.today_account_cost) }}</span
-                  >
-                  <span class="text-gray-400 dark:text-gray-500"> / </span>
-                  <span
-                    class="text-gray-400 dark:text-gray-500"
-                    :title="t('admin.dashboard.standard')"
-                    >${{ formatCost(stats.today_cost) }}</span
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Total Tokens -->
-          <div class="card p-4">
-            <div class="flex items-center gap-3">
-              <div class="rounded-lg bg-indigo-100 p-2 dark:bg-indigo-900/30">
-                <Icon name="database" size="md" class="text-indigo-600 dark:text-indigo-400" :stroke-width="2" />
-              </div>
-              <div>
-                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-                  {{ t('admin.dashboard.totalTokens') }}
-                </p>
-                <p class="text-xl font-bold text-gray-900 dark:text-white">
-                  {{ formatTokens(stats.total_tokens) }}
-                </p>
-                <p class="text-xs">
-                  <span
-                    class="text-green-600 dark:text-green-400"
-                    :title="t('admin.dashboard.actual')"
-                    >${{ formatCost(stats.total_actual_cost) }}</span
-                  >
-                  <span class="text-gray-400 dark:text-gray-500"> / </span>
-                  <span
-                    class="text-orange-500 dark:text-orange-400"
-                    :title="t('admin.dashboard.accountCost')"
-                    >${{ formatCost(stats.total_account_cost) }}</span
-                  >
-                  <span class="text-gray-400 dark:text-gray-500"> / </span>
-                  <span
-                    class="text-gray-400 dark:text-gray-500"
-                    :title="t('admin.dashboard.standard')"
-                    >${{ formatCost(stats.total_cost) }}</span
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Performance (RPM/TPM) -->
-          <div class="card p-4">
-            <div class="flex items-center gap-3">
-              <div class="rounded-lg bg-violet-100 p-2 dark:bg-violet-900/30">
-                <Icon name="bolt" size="md" class="text-violet-600 dark:text-violet-400" :stroke-width="2" />
-              </div>
-              <div class="flex-1">
-                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-                  {{ t('admin.dashboard.performance') }}
-                </p>
-                <div class="flex items-baseline gap-2">
-                  <p class="text-xl font-bold text-gray-900 dark:text-white">
-                    {{ formatTokens(stats.rpm) }}
-                  </p>
-                  <span class="text-xs text-gray-500 dark:text-gray-400">RPM</span>
-                </div>
-                <div class="flex items-baseline gap-2">
-                  <p class="text-sm font-semibold text-violet-600 dark:text-violet-400">
-                    {{ formatTokens(stats.tpm) }}
-                  </p>
-                  <span class="text-xs text-gray-500 dark:text-gray-400">TPM</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Avg Response Time -->
-          <div class="card p-4">
-            <div class="flex items-center gap-3">
-              <div class="rounded-lg bg-rose-100 p-2 dark:bg-rose-900/30">
-                <Icon name="clock" size="md" class="text-rose-600 dark:text-rose-400" :stroke-width="2" />
-              </div>
-              <div>
-                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
-                  {{ t('admin.dashboard.avgResponse') }}
-                </p>
-                <p class="text-xl font-bold text-gray-900 dark:text-white">
-                  {{ formatDuration(stats.average_duration_ms) }}
-                </p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">
-                  {{ stats.active_users }} {{ t('admin.dashboard.activeUsers') }}
-                </p>
-              </div>
-            </div>
+          <!-- Right column: system overview / collector / health alerts -->
+          <div class="space-y-4 xl:col-span-1">
+            <VersionCard
+              :app-version="appVersion"
+              :api-version="apiVersion"
+              :uptime-seconds="stats.uptime"
+              :server-build-date="buildTime"
+              :loading="systemLoading"
+              :error="systemError"
+            />
+            <CollectorStatusCard
+              :enabled="collectorEnabled"
+              :mode="collectorMode"
+              :queue="collectorQueue"
+              :events="collectorEvents"
+              :dead-letters="collectorDeadLetters"
+              :total-inserted="collectorTotalInserted"
+              :total-skipped="collectorTotalSkipped"
+              :last-error="collectorLastError"
+              :loading="opsLoading"
+            />
+            <HealthAlertsCard :items="healthAlerts" :loading="opsLoading" />
           </div>
         </div>
 
@@ -286,13 +118,17 @@
                 <span class="text-sm font-medium text-gray-700 dark:text-gray-300"
                   >{{ t('admin.dashboard.granularity') }}:</span
                 >
-                <div class="w-28">
-                  <Select
-                    v-model="granularity"
-                    :options="granularityOptions"
-                    @change="loadChartData"
-                  />
-                </div>
+                <SegmentedTabs
+                  v-model:model-value="granularity"
+                  :items="[
+                    { id: 'day', label: t('admin.dashboard.day') },
+                    { id: 'hour', label: t('admin.dashboard.hour') }
+                  ]"
+                  :ariaLabel="t('admin.dashboard.granularity')"
+                  id-base="admin-dashboard-granularity"
+                  equal-width
+                  @change="loadChartData"
+                />
               </div>
             </div>
           </div>
@@ -341,27 +177,35 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 
 const { t } = useI18n()
 import { adminAPI } from '@/api/admin'
+import { systemAPI, opsAPI } from '@/api/admin'
+
 import type {
   DashboardStats,
   TrendDataPoint,
   ModelStat,
   UserUsageTrendPoint,
-  UserSpendingRankingItem
+  UserSpendingRankingItem,
 } from '@/types'
+import type { OpsDashboardOverview } from '@/api/admin/ops'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
 import Icon from '@/components/icons/Icon.vue'
 import DateRangePicker from '@/components/common/DateRangePicker.vue'
-import Select from '@/components/common/Select.vue'
+import SegmentedTabs from '@/components/common/SegmentedTabs.vue'
 import ModelDistributionChart from '@/components/charts/ModelDistributionChart.vue'
 import TokenUsageTrend from '@/components/charts/TokenUsageTrend.vue'
+import UsageMetricsCard from '@/components/admin/dashboard/UsageMetricsCard.vue'
+import TrafficOverviewCard from '@/components/admin/dashboard/TrafficOverviewCard.vue'
+import VersionCard from '@/components/admin/dashboard/VersionCard.vue'
+import CollectorStatusCard from '@/components/admin/dashboard/CollectorStatusCard.vue'
+import HealthAlertsCard, { type HealthAlertItem } from '@/components/admin/dashboard/HealthAlertsCard.vue'
 import { useBatchImageAccess } from '@/composables/useBatchImageAccess'
 
 import {
@@ -410,6 +254,121 @@ let usersTrendLoadSeq = 0
 let rankingLoadSeq = 0
 const rankingLimit = 12
 
+// ── System overview (VersionCard) ──────────────────────────────
+const appVersion = ref('')
+const apiVersion = ref('')
+const buildTime = ref('')
+const systemLoading = ref(true)
+const systemError = ref('')
+const lastRefreshedAt = ref<Date | null>(null)
+
+const loadSystemInfo = async () => {
+  systemLoading.value = true
+  systemError.value = ''
+  try {
+    const version = await systemAPI.getVersion()
+    apiVersion.value = version.version || ''
+    appVersion.value = version.version || ''
+    try {
+      const updates = await systemAPI.checkUpdates(false)
+      if (!updates.has_update && updates.current_version) {
+        // check-updates echoes current_version; prefer it when present
+        apiVersion.value = updates.current_version
+      }
+    } catch { /* update check is best-effort */ }
+  } catch (error) {
+    console.error('Error loading system info:', error)
+    systemError.value = t('admin.dashboard.failedToLoad')
+  } finally {
+    systemLoading.value = false
+  }
+}
+
+// ── Collector status & health alerts (Ops API) ─────────────────
+const opsLoading = ref(false)
+const collectorEnabled = ref(true)
+const collectorMode = ref('')
+const collectorQueue = ref('')
+const collectorEvents = ref<number | undefined>(undefined)
+const collectorDeadLetters = ref<number | undefined>(undefined)
+const collectorTotalInserted = ref<number | undefined>(undefined)
+const collectorTotalSkipped = ref<number | undefined>(undefined)
+const collectorLastError = ref('')
+const healthAlerts = ref<HealthAlertItem[]>([])
+
+const buildHealthAlerts = (overview: OpsDashboardOverview): HealthAlertItem[] => {
+  const alerts: HealthAlertItem[] = []
+  const totalAccounts = stats.value?.total_accounts ?? 0
+
+  if ((overview.error_rate ?? 0) > 0.05) {
+    alerts.push({
+      label: t('admin.dashboard.alertHighErrorRate'),
+      detail: `${t('admin.dashboard.requests')}: ${overview.request_count_total.toLocaleString()}`,
+      value: `${((overview.error_rate ?? 0) * 100).toFixed(1)}%`,
+      tone: 'error'
+    })
+  }
+  if (overview.upstream_429_count > 0) {
+    alerts.push({
+      label: t('admin.dashboard.alertRateLimited'),
+      value: String(overview.upstream_429_count),
+      tone: 'warn'
+    })
+  }
+  const abnormalAccounts =
+    (stats.value?.error_accounts ?? 0) +
+    (stats.value?.ratelimit_accounts ?? 0) +
+    (stats.value?.overload_accounts ?? 0)
+  if (abnormalAccounts > 0 && totalAccounts > 0) {
+    alerts.push({
+      label: t('admin.dashboard.alertAbnormalAccounts'),
+      detail: `${abnormalAccounts} / ${totalAccounts}`,
+      value: `${((abnormalAccounts / totalAccounts) * 100).toFixed(0)}%`,
+      tone: abnormalAccounts / totalAccounts > 0.3 ? 'error' : 'warn'
+    })
+  }
+  if (typeof overview.health_score === 'number' && overview.health_score < 80) {
+    alerts.push({
+      label: t('admin.dashboard.alertLowHealthScore'),
+      value: String(Math.round(overview.health_score)),
+      tone: 'warn'
+    })
+  }
+
+  // Always-on summary rows when nothing is wrong
+  if (!alerts.length) {
+    alerts.push({
+      label: t('admin.dashboard.allNormal'),
+      detail: `QPS ${overview.qps?.current?.toFixed?.(2) ?? overview.qps?.current ?? 0} · ${t('admin.dashboard.avgResponse')} ${Math.round(overview.duration?.avg_ms ?? 0)}ms`,
+      tone: 'ok'
+    })
+  }
+  return alerts
+}
+
+const loadOpsStatus = async () => {
+  opsLoading.value = true
+  try {
+    const overview = await opsAPI.getDashboardOverview({ time_range: '30m' })
+    collectorEnabled.value = true
+    collectorMode.value = 'HTTP'
+    collectorEvents.value = overview.success_count
+    collectorDeadLetters.value = overview.error_count_total
+    collectorTotalInserted.value = overview.token_consumed
+    collectorTotalSkipped.value = overview.business_limited_count
+    collectorLastError.value = ''
+    healthAlerts.value = buildHealthAlerts(overview)
+  } catch (error) {
+    console.warn('Ops overview unavailable on this deployment:', error)
+    collectorEnabled.value = false
+    collectorLastError.value = ''
+    healthAlerts.value = []
+  } finally {
+    opsLoading.value = false
+  }
+}
+let opsPollTimer: ReturnType<typeof setInterval> | null = null
+
 // Helper function to format date in local timezone
 const formatLocalDate = (date: Date): string => {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
@@ -430,11 +389,7 @@ const defaultRange = getLast24HoursRangeDates()
 const startDate = ref(defaultRange.start)
 const endDate = ref(defaultRange.end)
 
-// Granularity options for Select component
-const granularityOptions = computed(() => [
-  { value: 'day', label: t('admin.dashboard.day') },
-  { value: 'hour', label: t('admin.dashboard.hour') }
-])
+// Granularity is rendered as SegmentedTabs (day / hour) — same control as the user dashboard.
 
 // Dark mode detection
 const isDarkMode = computed(() => {
@@ -583,34 +538,6 @@ const formatTokens = (value: number | undefined): string => {
   return value.toLocaleString()
 }
 
-const toFiniteNumber = (value: unknown): number => {
-  const numberValue = Number(value)
-  return Number.isFinite(numberValue) ? numberValue : 0
-}
-
-const formatNumber = (value: number | null | undefined): string => {
-  return toFiniteNumber(value).toLocaleString()
-}
-
-const formatCost = (value: number | null | undefined): string => {
-  const safeValue = toFiniteNumber(value)
-  if (safeValue >= 1000) {
-    return (safeValue / 1000).toFixed(2) + 'K'
-  } else if (safeValue >= 1) {
-    return safeValue.toFixed(2)
-  } else if (safeValue >= 0.01) {
-    return safeValue.toFixed(3)
-  }
-  return safeValue.toFixed(4)
-}
-
-const formatDuration = (ms: number): string => {
-  if (ms >= 1000) {
-    return `${(ms / 1000).toFixed(2)}s`
-  }
-  return `${Math.round(ms)}ms`
-}
-
 const goToUserUsage = (item: UserSpendingRankingItem) => {
   void router.push({
     path: '/admin/usage',
@@ -664,6 +591,7 @@ const loadDashboardSnapshot = async (includeStats: boolean) => {
     if (currentSeq !== chartLoadSeq) return
     if (includeStats && response.stats) {
       stats.value = response.stats
+      lastRefreshedAt.value = new Date()
     }
     trendData.value = response.trend || []
     modelStats.value = response.models || []
@@ -736,7 +664,8 @@ const loadDashboardStats = async () => {
   await Promise.all([
     loadDashboardSnapshot(true),
     loadUsersTrend(),
-    loadUserSpendingRanking()
+    loadUserSpendingRanking(),
+    loadOpsStatus()
   ])
 }
 
@@ -751,6 +680,18 @@ const loadChartData = async () => {
 onMounted(() => {
   void refreshBatchImageAccess()
   loadDashboardStats()
+  void loadSystemInfo()
+  // Light polling keeps collector/health cards fresh without reloading charts
+  opsPollTimer = setInterval(() => {
+    void loadOpsStatus()
+  }, 60_000)
+})
+
+onBeforeUnmount(() => {
+  if (opsPollTimer) {
+    clearInterval(opsPollTimer)
+    opsPollTimer = null
+  }
 })
 </script>
 
