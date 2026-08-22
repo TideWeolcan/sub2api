@@ -159,13 +159,11 @@
       </template>
     </TablePageLayout>
 
-    <!-- Detail dialog -->
-    <BaseDialog
-      :show="detailVisible"
+    <!-- Detail drawer -->
+    <AppDrawer
+      v-model="detailVisible"
       :title="t('admin.audit.detail.title')"
-      width="wide"
-      :close-on-click-outside="true"
-      @close="detailVisible = false"
+      :width="720"
     >
       <div v-if="detailLoading" class="flex items-center justify-center py-16">
         <div class="flex flex-col items-center gap-3">
@@ -267,7 +265,7 @@
           <pre class="max-h-48 overflow-auto rounded-xl bg-gray-50 p-4 font-mono text-xs leading-relaxed text-gray-600 dark:bg-dark-900 dark:text-gray-400">{{ JSON.stringify(detail.extra, null, 2) }}</pre>
         </section>
       </div>
-    </BaseDialog>
+    </AppDrawer>
 
     <!-- Custom time range dialog (与 /admin/ops 时间下拉一致的自定义范围，支持时分) -->
     <BaseDialog
@@ -362,7 +360,7 @@ import DataTable from '@/components/common/DataTable.vue'
 import type { Column } from '@/components/common/types'
 import Pagination from '@/components/common/Pagination.vue'
 import Select from '@/components/common/Select.vue'
-import BaseDialog from '@/components/common/BaseDialog.vue'
+import AppDrawer from '@/components/common/AppDrawer.vue'
 import ConfirmDialog from '@/components/common/ConfirmDialog.vue'
 import Icon from '@/components/icons/Icon.vue'
 import { useAppStore } from '@/stores'
