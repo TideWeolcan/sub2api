@@ -1,4 +1,11 @@
 export default {
+    // Model alias editor (shared component)
+    modelAliasEditor: {
+      namePlaceholder: 'model-name',
+      aliasPlaceholder: 'alias (optional)',
+      duplicateName: 'Duplicate model name',
+      duplicateAlias: 'Alias conflicts with another mapping'
+    },
     // Dashboard
     dashboard: {
       title: 'Admin Dashboard',

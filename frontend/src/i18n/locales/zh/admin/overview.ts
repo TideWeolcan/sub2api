@@ -1,4 +1,11 @@
 export default {
+    // 模型别名编辑器（公共组件）
+    modelAliasEditor: {
+      namePlaceholder: '模型名称',
+      aliasPlaceholder: '别名（可选）',
+      duplicateName: '模型名称重复',
+      duplicateAlias: '别名与其他映射冲突'
+    },
     // Dashboard
     dashboard: {
       title: '管理控制台',
